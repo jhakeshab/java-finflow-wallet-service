@@ -1,0 +1,22 @@
+server:
+  port: 9002
+
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5434/wallet_db
+    username: wallet_user
+    password: wallet_pass
+    driver-class-name: org.postgresql.Driver
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+  data:
+    redis:
+      host: localhost
+      port: 6381
+  kafka:
+    bootstrap-servers: localhost:9092
+
+auth:
+  service-url: http://localhost:9001

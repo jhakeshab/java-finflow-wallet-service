@@ -1,0 +1,35 @@
+version: '3.8'
+services:
+  wallet-app:
+    build: .
+    container_name: java-wallet-app
+    ports:
+      - "9002:9002"
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://wallet-db:5432/wallet_db
+      - SPRING_DATA_REDIS_HOST=wallet-redis
+      - SPRING_KAFKA_BOOTSTRAP_SERVERS=localhost:19092
+    depends_on:
+      - wallet-db
+      - wallet-redis
+
+  wallet-db:
+    image: postgres:15
+    container_name: java-wallet-postgres
+    ports:
+      - "15402:5432"
+    environment:
+      POSTGRES_DB: wallet_db
+      POSTGRES_USER: wallet_user
+      POSTGRES_PASSWORD: wallet_pass
+    volumes:
+      - wallet_pg_data:/var/lib/postgresql/data
+
+  wallet-redis:
+    image: redis:7-alpine
+    container_name: java-wallet-redis
+    ports:
+      - "16402:6379"
+
+volumes:
+  wallet_pg_data:
